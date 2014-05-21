@@ -6,8 +6,8 @@ $password = getenv('OPENSHIFT_MYSQL_DB_PASSWORD');
 
 echo "Trying to connect to: $host:$port with u:$user p:$password";
 
-$user = "php";
-$password = "php-pass";
+//$user = "php";
+//$password = "php-pass";
 
 try
 {
