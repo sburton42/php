@@ -1,26 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movies</title>
+</head>
+
+<body>
+
 <?php
 
 $user = "php";
 $password = "php-pass";
 
-$movieName = "star wars";
-
-try
+if (isset($_GET["movieName"]))
 {
-	$db = new PDO("mysql:host=127.0.0.1;dbname=movies", $user, $password);
+	$movieName = $_GET["movieName"];
 
-	$statement = $db->query("SELECT a.name FROM actor AS a INNER JOIN actormovie AS am ON a.id = am.actorId INNER JOIN movie AS m ON am.movieId = m.id WHERE m.Title LIKE '%star wars%';");
+	echo "<h1>Actors for movies like '$movieName'</h1>";
 
-	while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+	try
 	{
-		echo "Actor: " . $row["name"] . "<br />\n";
+		$db = new PDO("mysql:host=127.0.0.1;dbname=movies", $user, $password);
+
+		$movieSearch = "%" . $movieName . '%';
+
+		$statement = $db->prepare("SELECT a.name FROM actor AS a INNER JOIN actormovie AS am ON a.id = am.actorId INNER JOIN movie AS m ON am.movieId = m.id WHERE m.Title like :title;");
+		$statement->bindValue(":title", $movieSearch, PDO::PARAM_STR);
+		$statement->execute();
+
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			echo $row["name"] . "<br />\n";
+		}
+
+	}
+	catch (PDOException $ex)
+	{
+		echo "Error connecting. Details: $ex";
+		die();
 	}
 
 }
-catch (PDOException $ex)
-{
-	echo "Error connecting. Details: $ex";
-	die();
-}
-
 ?>
+
+<br /><br />
+
+<form METHOD="GET" ACTION="">
+	Movie: <input type="text" name="movieName" />
+	<input type="submit" value="Find movie!" />
+
+</form>
+
+</body>
+</html>
