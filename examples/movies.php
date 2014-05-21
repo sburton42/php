@@ -23,13 +23,13 @@ if (isset($_GET["movieName"]))
 
 		$movieSearch = "%" . $movieName . '%';
 
-		$statement = $db->prepare("SELECT a.name FROM actor AS a INNER JOIN actormovie AS am ON a.id = am.actorId INNER JOIN movie AS m ON am.movieId = m.id WHERE m.Title like :title;");
+		$statement = $db->prepare("SELECT a.name, m.title FROM actor AS a INNER JOIN actormovie AS am ON a.id = am.actorId INNER JOIN movie AS m ON am.movieId = m.id WHERE m.Title like :title ORDER BY m.title;");
 		$statement->bindValue(":title", $movieSearch, PDO::PARAM_STR);
 		$statement->execute();
 
 		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
 		{
-			echo $row["name"] . "<br />\n";
+			echo $row["title"] . " -- " . $row["name"] . "<br />\n";
 		}
 
 	}
