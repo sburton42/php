@@ -1,19 +1,25 @@
 <?php
-$host = getenv('OPENSHIFT_MYSQL_DB_HOST');
+
+require("dbConnector.php");
+
+/*$host = getenv('OPENSHIFT_MYSQL_DB_HOST');
 $port = getenv('OPENSHIFT_MYSQL_DB_PORT');
 $user = getenv('OPENSHIFT_MYSQL_DB_USERNAME');
 $password = getenv('OPENSHIFT_MYSQL_DB_PASSWORD');
+*/
 
 //$user = "php";
 //$password = "php-pass";
 
 try
 {
-   $db = new PDO("mysql:host=$host:$port;dbname=testdb", $user, $password);
+//   $db = new PDO("mysql:host=$host:$port;dbname=testdb", $user, $password);
 
-   foreach ($db->query("SELECT * FROM TestNote") as $row)
+   $db = loadDatabase();
+
+   foreach ($db->query("SELECT * FROM users") as $row)
    {
-      echo "id: " . $row['id'] . " text: " . $row['text'] . "<br />";
+      echo "id: " . $row['id'] . " userName: " . $row['userName'] . "<br />";
    }
 
 /*
