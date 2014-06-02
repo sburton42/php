@@ -1,6 +1,8 @@
 <?php
 
-$phpinfo();
+//$phpinfo();
+
+require("password.php");
 
 $password = "pass";
 
