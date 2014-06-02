@@ -14,7 +14,7 @@ require("password.php");
 if (isset ($_POST["password"]))
 {
 	// form submission was made
-	$yourPassword = $_POST["password"];
+	$yourPassword = htmlspecialchars($_POST["password"]);
 	$yourPasswordHash = password_hash($yourPassword, PASSWORD_DEFAULT);
 
 	$myPassword = "pass";
@@ -38,9 +38,6 @@ if (isset ($_POST["password"]))
 	}
 
 }
-else
-{
-	// no form submission was made
 
 ?>
 	<h1>Guess my password</h1>
@@ -48,11 +45,6 @@ else
 		<input type="text" name="password" /><br />
 		<input type="submit" value="Submit" /><br />
 	</form>
-<?
-}
-
-
-?>
 
 	</div>
 </body>
