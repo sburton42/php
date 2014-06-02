@@ -1,14 +1,59 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Password Tester</title>
+</head>
 
-//$phpinfo();
+<body>
+	<div>
+
+<?php
 
 require("password.php");
 
-$password = "pass";
+if (isset ($_POST["password"]))
+{
+	// form submission was made
+	$yourPassword = $_POST["password"];
+	$yourPasswordHash = password_hash($yourPassword, PASSWORD_DEFAULT);
 
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+	$myPassword = "pass";
+	$myPasswordHash = password_hash($myPassword, PASSWORD_DEFAULT);
 
-echo "Password: $password<br />\n";
-echo "Password Hash: $passwordHash<br />\n";
+	echo "My password is: $myPassword<br />";
+	echo "It's hash is: $myPasswordHash<br /><br />";
+
+	echo "Your guess is: $yourPassword<br />";
+	echo "It's hash is: $yourPasswordHash<br /><br />";
+
+	echo "According to password_verify, your password ";
+
+	if (password_verify($yourPassword, $myPasswordHash))
+	{
+		echo "matches!<br />";
+	}
+	else
+	{
+		echo "DOES NOT match!<br />";
+	}
+
+}
+else
+{
+	// no form submission was made
 
 ?>
+	<h1>Guess my password</h1>
+	<form id="form1" method="POST">
+		<input type="text" name="password" /><br />
+		<input type="submit" value="Submit" /><br />
+	</form>
+<?
+}
+
+
+?>
+
+	</div>
+</body>
+</html>
